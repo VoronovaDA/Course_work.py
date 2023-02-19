@@ -6,6 +6,8 @@ import configparser
 from time import sleep
 
 
+
+
 config = configparser.ConfigParser()
 config.read("settings.ini")
 access_token = config["token"]["access_token"]
@@ -69,8 +71,7 @@ class VK:
             else:
                 max_size[file_names] = {max_size_ph['type']: max_size_ph['url']}
         return max_size
-
-
+    
 
 class Yandex:
 
@@ -80,8 +81,7 @@ class Yandex:
         self.headers = {
             'Authorization': f'OAuth {self.token}',
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        }
+            'Accept': 'application/json'}
 
 
     def ya_path_folder(self, folder_name):
@@ -109,7 +109,6 @@ class Yandex:
             for key in dict_v.keys():
                 json_photo = {"file_name": f'{folder_name}/{k}.jpg', "size": f'{key}'}
                 file_json.append(json_photo) 
-
             if status < 400:
                 print(f'Фотографии загружены на Я-Диск!')
             else:
@@ -118,14 +117,14 @@ class Yandex:
         return file_json
 
 
-user_name = input("Здравствуйте! \nВведите id или screen_name пользователя VK: ")
+#user_name = input("Здравствуйте! \nВведите id или screen_name пользователя VK: ")
 vk = VK(access_token, user_name)
 ya = Yandex(token_ya)
 user_name = vk.users_info(user_name)
 
 
 while True:
-    token_ya = input("""Введите токен от Я-Диска: """)
+    #token_ya = input("""Введите токен от Я-Диска: """)
     album = input(
         """Какие фотографии Вас интересуют? \n"1" Фотографии со стены или "2" Фотографии профиля:  """)
     if album < '1' or album > '2':
@@ -140,8 +139,7 @@ while True:
         f_count = 5
         print('Установленно значение по умолчанию - 5 фото.')
     folder_name = input('Введите название папки для сохранения фото: ')
-    upload_file = ya.upload_photo()
-    
+    upload_file = ya.upload_photo()   
     with open('my_VK_photo.json', 'w') as f:
         json.dump(upload_file, f, indent=2)
     with open(folder_name, 'w') as t:
